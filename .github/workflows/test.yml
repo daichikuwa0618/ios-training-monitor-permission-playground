@@ -24,6 +24,9 @@ jobs:
           # xcrun xctrace returns via stderr, not the expected stdout (see https://developer.apple.com/forums/thread/663959)
           device=`xcrun xctrace list devices 2>&1 | grep -oE 'iPhone.*?[^\(]+' | head -1 | awk '{$1=$1;print}' | sed -e "s/ Simulator$//"`
           xcodebuild -scheme "$scheme" -resultBundlePath TestResults test -destination "platform=$platform,name=$device"
+      - uses: GitHubSecurityLab/actions-permissions/monitor@v1
+        with:
+          config: ${{ vars.PERMISSIONS_CONFIG }}
       - name: Format
         uses: kishikawakatsumi/xcresulttool@v1
         with:
